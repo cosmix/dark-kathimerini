@@ -1,0 +1,1713 @@
+/* ==UserStyle==
+@name           Dark Kathimerini
+@namespace      dark-kathimerini
+@version        1.0.0
+@description    A refined dark theme for kathimerini.gr
+@author         cosmix
+@updateURL      https://raw.githubusercontent.com/cosmix/dark-kathimerini/main/dark-kathimerini.css
+==/UserStyle== */
+
+@-moz-document domain("kathimerini.gr") {
+  /* ─────────────────────────────────────────────
+     Design tokens
+     ───────────────────────────────────────────── */
+  :root {
+    --dk-bg: #0e1217; /* page background */
+    --dk-surface: #161b22; /* nx-white-bg sections, cards */
+    --dk-surface-2: #1c222c; /* elevated cards / hover */
+    --dk-surface-3: #232a36; /* inputs, chips, code */
+    --dk-surface-dark: #0a0d11; /* footer / dark-nav (already dark on site) */
+    --dk-border: #262d39;
+    --dk-border-strong: #36404f;
+
+    --dk-text: #e6e9ee; /* primary body text */
+    --dk-text-strong: #f5f6f8; /* heds, titles */
+    --dk-text-muted: #b0b6bf; /* deks, captions, secondary */
+    --dk-text-faint: #818892; /* timestamps, credits, breadcrumb */
+
+    --dk-blue: #4d9fff; /* brand blue, brightened from #1a84ff */
+    --dk-blue-hover: #6bb3ff;
+    --dk-blue-dim: #2c7dd6;
+    --dk-link: var(--dk-blue);
+    --dk-link-hover: var(--dk-blue-hover);
+
+    --dk-placeholder: #20262f; /* lazy-load image background */
+  }
+
+  /* ─────────────────────────────────────────────
+     Base surfaces — broad strokes
+     ───────────────────────────────────────────── */
+  html,
+  body,
+  main,
+  .app-template,
+  .main-container,
+  .main-container.container,
+  .container.is-fullhd,
+  .main-logo-container,
+  .header_logo_container,
+  .nx-white-bg,
+  [class*="block-"],
+  .first-block,
+  .second-block,
+  .third-block,
+  .third-block-2 {
+    background-color: var(--dk-bg) !important;
+    color: var(--dk-text) !important;
+  }
+
+  /* Section wrappers the site uses across the homepage */
+  .nx-white-bg,
+  .first-block,
+  .second-block,
+  .third-block,
+  .third-block-2 {
+    background-color: var(--dk-bg) !important;
+  }
+
+  /* Already-dark navy section (`.nx-dark-bg`, `.mt-5.mb-5`) — keep dark but
+     deepen so it differs from page bg, and force readable text. */
+  .nx-dark-bg,
+  div.nx-dark-bg,
+  .main-container.is-grayed,
+  .is-grayed {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+  .is-grayed,
+  .main-container.is-grayed * {
+    color: var(--dk-text) !important;
+  }
+
+  /* Default text — defeat hard-coded #161E29 / #313942 / #4a4a4a / #686868 */
+  body,
+  body p,
+  body span,
+  body div,
+  body li,
+  body td,
+  body th,
+  body label,
+  body figcaption {
+    color: var(--dk-text);
+  }
+
+  /* ─────────────────────────────────────────────
+     Headings — almost white, strong weight
+     ───────────────────────────────────────────── */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .title,
+  .entry-title,
+  .post-title,
+  .apopseis-main-title,
+  .apopseis-head-title,
+  .apopseis-author-name,
+  .card-title,
+  .comment-header-title {
+    color: var(--dk-text-strong) !important;
+  }
+
+  /* Hypertitles / kickers / section labels — use brand blue */
+  .hypertitle,
+  .apopseis-main-post-hypertitle-text,
+  .subtitle,
+  .subtitle.is-7,
+  .apopseis-bg,
+  .block-h-h-s-t .title,
+  [class*="kicker"],
+  [class*="hypertitle"] {
+    color: var(--dk-blue) !important;
+  }
+
+  /* Body paragraph color in articles is rgb(49,57,66) — too dark on dark */
+  .entry-content,
+  .entry-content p,
+  .entry-content li,
+  .entry-content td,
+  .entry-content th,
+  .entry-content blockquote,
+  .nx-article,
+  .nx-article p,
+  .nx-article li,
+  article,
+  article p,
+  .post p {
+    color: var(--dk-text) !important;
+  }
+
+  /* Captions, dates, breadcrumb crumbs — muted but legible */
+  .img-caption,
+  .wp-caption-text,
+  figcaption,
+  .entry-date,
+  .posted-on,
+  .author,
+  .byline,
+  .comments-text,
+  .head-newsletter-descr,
+  .descr,
+  .nx-single-tags-wrapper a,
+  .related-articles-title {
+    color: var(--dk-text-muted) !important;
+  }
+
+  .breadcrumb,
+  .breadcrumb a,
+  .breadcrumb span {
+    color: var(--dk-text-faint) !important;
+  }
+  .breadcrumb a:hover {
+    color: var(--dk-text) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Links — most anchors wrap card headlines, so default
+     to inherit (look like body text). Only style as blue
+     in real prose contexts (article body, inline text).
+     ───────────────────────────────────────────── */
+  a,
+  a:link,
+  a:visited {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:hover,
+  a:focus {
+    color: var(--dk-link-hover);
+  }
+
+  /* Article body links: site uses pure black — make them blue */
+  .entry-content p a,
+  .entry-content li a,
+  .entry-content blockquote a,
+  .nx-article p a,
+  .nx-article li a,
+  article p a {
+    color: var(--dk-link) !important;
+    text-decoration: underline;
+    text-decoration-color: rgba(77, 159, 255, 0.4);
+    text-underline-offset: 2px;
+  }
+  .entry-content p a:hover,
+  .entry-content li a:hover,
+  .nx-article p a:hover,
+  .nx-article li a:hover {
+    color: var(--dk-link-hover) !important;
+    text-decoration-color: var(--dk-link-hover);
+  }
+
+  /* Card / headline anchors inherit (the H2/title color wins) */
+  .card a,
+  .card-content a,
+  .article-item a,
+  .apopseis-card a,
+  .apopseis-main-post a,
+  .apopseis-post-card-link,
+  .interviews-card a,
+  .international-card a,
+  .amyna-card a,
+  .related-card a,
+  .block-article-link a,
+  .auto-card a,
+  .books-card a,
+  .hours-card a {
+    color: inherit !important;
+  }
+  .card a:hover,
+  .article-item a:hover,
+  .apopseis-card a:hover,
+  .related-card a:hover {
+    color: var(--dk-link-hover) !important;
+  }
+
+  /* Main menu / nav text links — were pure black */
+  .main-menu-item,
+  .main-menu a,
+  .k-side-menu a,
+  .k-side-menu-body a,
+  .bottom-nav a,
+  .user-menu-btn,
+  .user-login-btn,
+  .head-game-cta {
+    color: var(--dk-text) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Header / sticky logo bar
+     ───────────────────────────────────────────── */
+  .main-logo-container,
+  .header_logo_container,
+  div.main-logo-container.p-0 {
+    background-color: var(--dk-bg) !important;
+    color: var(--dk-text) !important;
+    border-bottom: 1px solid var(--dk-border) !important;
+  }
+
+  /* Mobile header strip (was bright brand-blue) — keep blue but slightly muted */
+  .only-mob-header-wrapper {
+    background-color: var(--dk-blue-dim) !important;
+    color: #fff !important;
+  }
+  .only-mob-header-wrapper * {
+    color: #fff !important;
+  }
+
+  /* Bottom mobile nav (mobile only): page bg, top border to separate */
+  .app-template.bottom-nav,
+  .bottom-nav {
+    background-color: var(--dk-bg) !important;
+    color: var(--dk-text) !important;
+    border-top: 1px solid var(--dk-border) !important;
+  }
+  .bottom-nav a,
+  .bottom-nav svg {
+    color: var(--dk-text) !important;
+    fill: var(--dk-text) !important;
+  }
+
+  /* Dark mobile nav (`.app-template.dark-nav`) — page bg, lift text */
+  .app-template.dark-nav,
+  .dark-nav {
+    background-color: var(--dk-bg) !important;
+    color: var(--dk-text) !important;
+  }
+  .dark-nav *,
+  .app-template.dark-nav * {
+    color: var(--dk-text) !important;
+  }
+  .dark-nav svg,
+  .app-template.dark-nav svg,
+  .dark-nav svg path,
+  .app-template.dark-nav svg path {
+    fill: var(--dk-text) !important;
+    color: var(--dk-text) !important;
+  }
+
+  /* Side / burger menu panel */
+  .k-side-menu,
+  .k-side-menu-body,
+  .side-menu,
+  .close-nav-button {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+  }
+  .k-side-menu-body * {
+    color: var(--dk-text);
+  }
+  .k-side-menu-body a:hover {
+    color: var(--dk-link-hover) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Main K-Kathimerini logo (inline SVG)
+     All paths have fill="#161E29". Invert them.
+     ───────────────────────────────────────────── */
+  .logo-wrapper svg path,
+  .logo-wrapper svg rect,
+  .logo-wrapper svg polygon,
+  .main-logo-container svg path,
+  .main-logo-container svg rect,
+  .main-logo-container svg polygon,
+  .header_logo_container svg path[fill="#161E29"],
+  svg path[fill="#161E29"],
+  svg path[fill="#161e29"] {
+    fill: var(--dk-text-strong) !important;
+  }
+
+  /* Sprite icons (burger, close, search, user, social) — black fill */
+  svg[fill="black"],
+  svg[fill="#000"],
+  svg[fill="#000000"],
+  svg[fill="rgb(0, 0, 0)"],
+  .burger-wrapper svg,
+  .close-nav-button svg,
+  .user-menu-btn svg,
+  .user-login-btn svg,
+  .share-tool svg,
+  .share-link svg,
+  .comments-icon svg,
+  .main-menu svg {
+    fill: var(--dk-text) !important;
+    color: var(--dk-text) !important;
+  }
+  .burger-wrapper svg use,
+  .close-nav-button svg use,
+  .user-menu-btn svg use,
+  .share-tool svg use,
+  .share-link svg use,
+  .comments-icon svg use,
+  .main-menu svg use {
+    fill: var(--dk-text) !important;
+    color: var(--dk-text) !important;
+  }
+  /* `<use>` references re-color via `color: currentColor` on parent */
+  .main-logo-container,
+  .bottom-nav,
+  .dark-nav,
+  .k-side-menu-body {
+    color: var(--dk-text);
+  }
+
+  /* ─────────────────────────────────────────────
+     Footer — already dark on the site, keep dark
+     but harmonize with palette and lift text contrast.
+     ───────────────────────────────────────────── */
+  footer,
+  footer.footer,
+  .footer {
+    background-color: var(--dk-surface-dark) !important;
+    color: var(--dk-text) !important;
+    border-top: 1px solid var(--dk-border) !important;
+  }
+  footer *,
+  .footer * {
+    color: var(--dk-text);
+  }
+  footer h1,
+  footer h2,
+  footer h3,
+  footer h4,
+  .footer h1,
+  .footer h2,
+  .footer h3,
+  .footer h4 {
+    color: var(--dk-text-strong) !important;
+  }
+  footer a,
+  .footer a {
+    color: var(--dk-text-muted) !important;
+  }
+  footer a:hover,
+  .footer a:hover {
+    color: var(--dk-link-hover) !important;
+  }
+  /* Footer dividers (rgba(255,255,255,0.3) lines) — soften */
+  .footer .line {
+    background-color: var(--dk-border-strong) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Cards & blocks — FLAT: let the page background show through.
+     No surface fill, no border. Just spacing.
+     ───────────────────────────────────────────── */
+  .card,
+  .card.is-flex,
+  .card.vertical-image,
+  .card.main-hero,
+  .card.politics-card,
+  .card.world-card,
+  .card.economics-card,
+  .card.culture-card,
+  .card.life-card,
+  .card.society-card,
+  .card.viral-card,
+  .card[class*="-card"],
+  .card-content,
+  .article-item,
+  .article-plain,
+  .apopseis-card,
+  .apopseis-main-card,
+  .apopseis-main-post,
+  .interviews-card,
+  .international-card,
+  .amyna-card,
+  .auto-card,
+  .books-card,
+  .hours-card,
+  .related-card,
+  .media-content,
+  .post-sidebar-1-a,
+  .post-sidebar-1-b {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    box-shadow: none !important;
+  }
+  /* And force descendant text to read as light — sweeps any
+     hard-coded dark colors the site applies on nested elements */
+  .card,
+  .card *,
+  .card-content,
+  .card-content *,
+  .article-item,
+  .article-item *,
+  .apopseis-card,
+  .apopseis-card *,
+  .apopseis-main-post,
+  .apopseis-main-post *,
+  .block-article-link,
+  .block-article-link *,
+  .related,
+  .related *,
+  .related-card,
+  .related-card *,
+  .related-articles,
+  .related-articles *,
+  .post-sidebar-1-a,
+  .post-sidebar-1-a *,
+  .post-sidebar-1-b,
+  .post-sidebar-1-b * {
+    color: var(--dk-text);
+    border-color: var(--dk-border);
+  }
+  /* Hover: faint surface tint to hint at clickability, no hard fill */
+  .card:hover,
+  .article-item:hover,
+  .related-card:hover,
+  .apopseis-card:hover {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+  }
+
+  /* Editor's pick / opinion strip etc. — page bg */
+  .block-editors-pick,
+  .block-opinions,
+  .block-opinion-head,
+  .apopseis-bg {
+    background-color: transparent !important;
+  }
+
+  /* Dividers / separators (rgb(166,172,178) borders) */
+  .border-separator-b,
+  .m-0.border-separator-b,
+  hr {
+    border-color: var(--dk-border) !important;
+    background-color: var(--dk-border) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Buttons
+     ───────────────────────────────────────────── */
+  /* Primary blue button — keep blue, refine */
+  .first-btn,
+  button.first-btn,
+  .user-sub-btn,
+  .user-register-btn,
+  .nx-primary-btn {
+    background-color: var(--dk-blue) !important;
+    color: #fff !important;
+    border-color: var(--dk-blue) !important;
+  }
+  .first-btn:hover,
+  .user-sub-btn:hover,
+  .user-register-btn:hover,
+  .nx-primary-btn:hover {
+    background-color: var(--dk-blue-hover) !important;
+    color: #fff !important;
+  }
+
+  /* Secondary / outline button — was white bg / teal text */
+  .second-btn,
+  a.second-btn,
+  button.second-btn,
+  .nx-primary-btn.btn-reversed {
+    background-color: transparent !important;
+    color: var(--dk-blue) !important;
+    border: 1px solid var(--dk-blue) !important;
+  }
+  .second-btn:hover,
+  .nx-primary-btn.btn-reversed:hover {
+    background-color: rgba(77, 159, 255, 0.12) !important;
+    color: var(--dk-blue-hover) !important;
+  }
+
+  /* "More items" / chevrons in section heads */
+  .more-items-text {
+    color: var(--dk-blue) !important;
+  }
+
+  /* CTA pill — head-game-cta */
+  .head-game-cta,
+  .cta-btn {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border-strong) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Forms — search, newsletter
+     ───────────────────────────────────────────── */
+  input,
+  textarea,
+  select,
+  .search-input,
+  .search_form_wrapper input,
+  .search_form_wrapper {
+    background-color: var(--dk-surface-3) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border-strong) !important;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--dk-text-faint) !important;
+  }
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--dk-blue) !important;
+    outline: none !important;
+  }
+
+  /* Search form wrapper background */
+  .search_form_wrapper {
+    background-color: var(--dk-surface) !important;
+    border: 1px solid var(--dk-border) !important;
+  }
+
+  /* Newsletter / in-article subscription blocks — flat, accent border */
+  .p-inarticle,
+  .p-inarticle-newsletter-subscription,
+  .p-inarticle-subscription,
+  .p-inarticle-subscription-mob,
+  .newsletter-content,
+  .head-newsletter {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border) !important;
+  }
+  .p-inarticle *,
+  .p-inarticle-newsletter-subscription *,
+  .newsletter-content *,
+  .head-newsletter * {
+    color: var(--dk-text);
+  }
+
+  /* ─────────────────────────────────────────────
+     Tags / chips / badges
+     ───────────────────────────────────────────── */
+  .tag,
+  .nx-tag,
+  .nx-single-tags-wrapper a {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text-muted) !important;
+    border: 1px solid var(--dk-border) !important;
+  }
+  .tag:hover,
+  .nx-tag:hover,
+  .nx-single-tags-wrapper a:hover {
+    color: var(--dk-blue) !important;
+    border-color: var(--dk-blue) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Article specifics
+     ───────────────────────────────────────────── */
+  .entry-title,
+  h1.entry-title {
+    color: var(--dk-text-strong) !important;
+  }
+
+  /* In-article subhead h2/h3 */
+  .entry-content h2,
+  .entry-content h3,
+  .entry-content h4,
+  .nx-article h2,
+  .nx-article h3 {
+    color: var(--dk-text-strong) !important;
+  }
+
+  .entry-content strong,
+  .entry-content b,
+  .nx-article strong,
+  .nx-article b {
+    color: var(--dk-text-strong) !important;
+  }
+
+  .entry-content blockquote,
+  .nx-article blockquote,
+  .wp-block-quote {
+    background-color: transparent !important;
+    color: var(--dk-text-strong) !important;
+    border-left: 4px solid var(--dk-blue) !important;
+    padding: 0.75em 1em !important;
+  }
+
+  /* Inline code / pre */
+  pre,
+  code,
+  kbd,
+  samp {
+    background-color: var(--dk-surface-3) !important;
+    color: var(--dk-text-strong) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  /* Table */
+  .entry-content table,
+  .entry-content td,
+  .entry-content th {
+    border-color: var(--dk-border) !important;
+  }
+  .entry-content thead {
+    background-color: transparent !important;
+    border-bottom: 2px solid var(--dk-border-strong) !important;
+  }
+  .entry-content tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.025) !important;
+  }
+
+  /* Author / byline block */
+  .entry-header,
+  .entry-content-meta-wrapper,
+  .posted-on,
+  .author-img {
+    color: var(--dk-text-muted) !important;
+  }
+
+  /* Comments block — flat */
+  .comments-icon-wrapper,
+  .comment-actions,
+  .comment-header,
+  .comment-header-register,
+  .comment-header-title,
+  .comment-header-subtitle {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+  /* The little number-pill (count of comments) keeps the accent fill */
+  .comment-cnt {
+    background-color: var(--dk-blue) !important;
+    color: #fff !important;
+  }
+
+  /* Share bar */
+  .share-holder,
+  .social-share-wrapper,
+  .share-link,
+  .share-tool {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  /* "Διαβάστε επίσης" / Related articles strip — flat, transparent.
+     The headline lives in a sibling `.card-content > .media-content > p.title`
+     of `.block-article-link`, so we target the parent card too. */
+  .related,
+  .related-articles,
+  .related-card,
+  .block-article-link,
+  .card.politics-card,
+  .card.world-card,
+  .card.economics-card,
+  .card.culture-card,
+  .card.life-card,
+  .card.society-card,
+  .card.viral-card,
+  .card.interviews-card,
+  .card.opinion-card,
+  .card.sports-card,
+  .card.gastronomos-card,
+  .card.k-magazine-card,
+  .card.kathimerini-card {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .related *,
+  .related-articles *,
+  .related-card *,
+  .block-article-link *,
+  /* `.card` parents of `.block-article-link` — they hold the title text */
+  .card.politics-card *,
+  .card.world-card *,
+  .card.economics-card *,
+  .card.culture-card *,
+  .card.life-card *,
+  .card.society-card *,
+  .card.viral-card *,
+  .card.interviews-card *,
+  .card.opinion-card *,
+  .card.sports-card *,
+  .card.gastronomos-card *,
+  .card.k-magazine-card *,
+  .card.kathimerini-card *,
+  /* Bulma media object inside cards */
+  .card .media-content,
+  .card .media-content *,
+  .card .media,
+  .card .media * {
+    color: var(--dk-text) !important;
+    background-color: transparent !important;
+  }
+  /* The Bulma "title" / "subtitle" classes hard-code dark colors — beat
+     them with class-stacked selectors (specificity ≥ 0,4,1).
+     Card headlines on Kathimerini use combos of:
+       .title.is-{3..6} + .{big,medium,small}_title + .nx-title
+     so we target the actual stacked classes used in markup. */
+  p.title.nx-title,
+  p.title.is-3.nx-title,
+  p.title.is-4.nx-title,
+  p.title.is-5.nx-title,
+  p.title.is-6.nx-title,
+  p.title.medium_title.nx-title,
+  p.title.small_title.nx-title,
+  p.title.big_title.nx-title,
+  p.title.is-3.big_title.nx-title,
+  p.title.is-4.big_title.nx-title,
+  p.title.is-4.medium_title.nx-title,
+  p.title.is-5.medium_title.nx-title,
+  p.title.is-5.small_title.nx-title,
+  p.title.is-6.medium_title.nx-title,
+  p.title.is-6.small_title.nx-title,
+  /* generic catches at lower specificity, still useful where above doesn't match */
+  html body .card .title,
+  html body .card p.title,
+  html body .card .nx-title,
+  html body .card .medium_title,
+  html body .card .big_title,
+  html body .card .small_title,
+  html body .related .title,
+  html body .related-card .title,
+  html body .block-article-link .title,
+  html body .post-sidebar-1-a .title,
+  html body .post-sidebar-1-b .title,
+  html body p.title,
+  html body .nx-title,
+  html body .medium_title,
+  html body .big_title,
+  html body .small_title {
+    color: var(--dk-text-strong) !important;
+  }
+  /* Subtitle / hypertitle stays brand blue */
+  .card .subtitle,
+  .card p.subtitle,
+  .related .subtitle,
+  .related-card .subtitle {
+    color: var(--dk-blue) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Image placeholders (gray boxes while loading)
+     ───────────────────────────────────────────── */
+  img.lazy,
+  img.picture-nx-medium-two,
+  img[loading="lazy"]:not([src*="data:image"]) {
+    background-color: var(--dk-placeholder);
+  }
+  /* Pure-gray placeholder pixels the site uses inline */
+  img[src^="data:image/png;base64"]:not([alt]) {
+    background-color: var(--dk-placeholder);
+  }
+
+  /* Author avatar circles */
+  .author-img,
+  .apopseis-author-figure,
+  .apopseis-main-post-author-figure,
+  .initials {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Ads — leave functional but blend the wrapper
+     ───────────────────────────────────────────── */
+  .k-banner-1,
+  .k-banner,
+  [class*="k-banner"] {
+    background-color: transparent !important;
+    color: var(--dk-text-faint) !important;
+  }
+  /* Billboard ad row: hide entirely */
+  .nx-billboard-ad-row,
+  div.nx-billboard-ad-row {
+    display: none !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Misc utility / Bulma overrides
+     ───────────────────────────────────────────── */
+  .has-background-white,
+  .has-background-light,
+  .is-white {
+    background-color: var(--dk-bg) !important;
+  }
+  .has-text-black,
+  .has-text-dark {
+    color: var(--dk-text) !important;
+  }
+  .has-text-grey,
+  .has-text-grey-dark,
+  .has-text-grey-darker {
+    color: var(--dk-text-muted) !important;
+  }
+  .has-text-grey-light,
+  .has-text-grey-lighter {
+    color: var(--dk-text-faint) !important;
+  }
+
+  /* Pagination dots */
+  .splide__pagination__page {
+    background-color: var(--dk-border-strong) !important;
+  }
+  .splide__pagination__page.is-active {
+    background-color: var(--dk-blue) !important;
+  }
+
+  /* Splide arrows */
+  .splide__arrow {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text) !important;
+  }
+  .splide__arrow svg {
+    fill: var(--dk-text) !important;
+  }
+
+  /* Back-to-top button */
+  .back_to_top,
+  .b-top {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border-strong) !important;
+  }
+
+  /* Scrollbars (Firefox) */
+  * {
+    scrollbar-color: var(--dk-border-strong) var(--dk-bg);
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--dk-blue);
+    color: #fff;
+  }
+
+  /* ─────────────────────────────────────────────
+     FIXES PASS — feedback driven
+     ───────────────────────────────────────────── */
+
+  /* All section heads & titled wrappers — strong, light text.
+     The site has lots of specific selectors that beat generic h2 !important. */
+  .section-title-wrapper,
+  .section-title-wrapper *,
+  .section-head,
+  .section-head *,
+  .section-head-editors,
+  .section-head-editors *,
+  [class*="block-"] .section-title-wrapper *,
+  [class*="block-"] > h2,
+  [class*="block-"] > h2 *,
+  [class*="block-"] > h3,
+  [class*="block-"] > h3 *,
+  .center-inner-section,
+  .center-inner-section *,
+  .block-opinion-head,
+  .block-opinion-head *,
+  .apopseis-head,
+  .apopseis-head *,
+  .apopseis-head-title,
+  .apopseis-main-title,
+  h2.apopseis-head-title,
+  .block-h-h-s-t h2,
+  .block-h-h-s-t h2 *,
+  .block-k-v-t h2,
+  .block-k-v-t h2 *,
+  .block-nl-g-l h2,
+  .block-nl-g-l h2 *,
+  .block-nyt-mr-g-k h2,
+  .block-nyt-mr-g-k h2 *,
+  .block-economics h2,
+  .block-economics h2 *,
+  .block-politics h2,
+  .block-politics h2 *,
+  .block-culture h2,
+  .block-culture h2 *,
+  .block-society h2,
+  .block-society h2 *,
+  .block-world h2,
+  .block-world h2 *,
+  .block-life h2,
+  .block-life h2 *,
+  .block-viral h2,
+  .block-viral h2 *,
+  .block-podcasts h2,
+  .block-podcasts h2 *,
+  .block-sketches h2,
+  .block-sketches h2 *,
+  .block-interviews h2,
+  .block-interviews h2 *,
+  .block-editors-pick h2,
+  .block-editors-pick h2 *,
+  .block-editors-pick .section-head-editors *,
+  .color-primary {
+    color: var(--dk-text-strong) !important;
+  }
+
+  /* ── Sub-brand logos (Περιοδικό Κ / Vogue / Hours / Ιστορία / Γαστρονόμος
+     / Health). All live at /wp-content/themes/nxcode/images/title_images/*.svg
+     and also appear as footer brand logos. Target by src — by far the most
+     reliable match. */
+  img[src*="/title_images/"],
+  img[src*="title-images/"],
+  img[src*="k-magazine.svg"],
+  img[src*="kmag.svg"],
+  img[src*="periodiko"],
+  img[src*="vogue.svg"],
+  img[src*="vogue.png"],
+  img[src*="hours.svg"],
+  img[src*="hours.png"],
+  img[src*="istoria.svg"],
+  img[src*="gastronomos.svg"],
+  img[src*="gastronomos.png"],
+  img[src*="health.svg"],
+  img[src*="vita.svg"],
+  img[src*="atletika.svg"],
+  img[src*="oikonomikos.svg"],
+  /* Section-title-wrapper images are always sub-brand logos */
+  .section-title-wrapper img,
+  .section-title-wrapper > a > img,
+  .section-title-wrapper picture img,
+  .outer-header img.lazy,
+  .footer-logos img,
+  .footer-logos a img,
+  .footer-copy img,
+  /* Vertical-section blocks (#block-k-magazine, #block-istoria, etc.) */
+  [id^="block-k-magazine"] .section-title-wrapper img,
+  [id^="block-istoria"] .section-title-wrapper img,
+  [id^="block-gastronomos"] .section-title-wrapper img,
+  [id^="block-health"] .section-title-wrapper img,
+  [id^="block-vogue"] .section-title-wrapper img,
+  [id^="block-hours"] .section-title-wrapper img,
+  [id^="block-vita"] .section-title-wrapper img,
+  [id^="block-atletika"] .section-title-wrapper img,
+  [id^="block-oikonomikos"] .section-title-wrapper img,
+  .amyna-card img.lazy[alt*="logo" i],
+  .auto-card img.lazy[alt*="logo" i],
+  .books-card img.lazy[alt*="logo" i],
+  .hours-card img.lazy {
+    /* CSS `filter` is applied to the element's bg-color too — so the
+       lazy-load placeholder bg would invert to light. Force transparent. */
+    background-color: transparent !important;
+    filter: invert(0.92) hue-rotate(180deg) brightness(1.05) !important;
+  }
+  /* Do NOT invert Σκίτσα illustrations (they are content, not logos) —
+     they live in cards with class .picture-* and alts like "σκίτσο-του-...". */
+  img[alt*="σκίτσ" i],
+  img[alt*="skits" i],
+  img[alt*="cartoon" i],
+  img.picture-nx-medium-two[alt*="σκίτσ" i] {
+    filter: none !important;
+  }
+
+  /* ── Author avatars in opinions/apopseis — make sure the empty circle
+     reads as dark surface, not white. */
+  a.author-img,
+  .author-img,
+  .apopseis-author-figure,
+  .apopseis-main-post-author-figure,
+  .apopseis-card .author-img,
+  .apopseis-main-post .author-img,
+  figure.author-img,
+  .initials {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  /* ── Bulma `.tabs.is-toggle` — active tab was solid white bg.
+     The "Τελευταίες ειδήσεις" / "Τα πιο δημοφιλή" toggle. */
+  .tabs.is-toggle li a,
+  .tabs.is-toggle li span,
+  .tabs.is-toggle ul li,
+  .tabs.is-toggle ul li span {
+    background-color: transparent !important;
+    color: var(--dk-text-muted) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .tabs.is-toggle li.is-active,
+  .tabs.is-toggle li.is-active a,
+  .tabs.is-toggle li.is-active span {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text-strong) !important;
+    border-color: var(--dk-border-strong) !important;
+  }
+  .tabs.is-toggle li:not(.is-active):hover a,
+  .tabs.is-toggle li:not(.is-active):hover span {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+  }
+
+  /* ── "Τα πιο δημοφιλή" popular-stories list on article pages.
+     The numbers are blue (kept), but the headline text rendered black. */
+  .popular,
+  .popular-list,
+  .most-popular,
+  .most-read,
+  .most-viewed,
+  .popular-stories,
+  .top-stories,
+  [class*="popular"] li,
+  [class*="popular"] a,
+  [class*="popular"] span:not(.number):not(.count),
+  [class*="most-read"] li,
+  [class*="most-read"] a,
+  .post-sidebar-1-a *,
+  .post-sidebar-1-b *,
+  /* Bulma tab content panels */
+  .tab-content,
+  .tab-pane,
+  .tab-content *,
+  .tab-pane * {
+    color: var(--dk-text) !important;
+  }
+  /* Keep the big blue numerals */
+  [class*="popular"] .number,
+  [class*="popular"] .count,
+  [class*="popular"] li::before,
+  .post-sidebar-1-a .number,
+  .post-sidebar-1-b .number {
+    color: var(--dk-blue) !important;
+  }
+
+  /* ── Hamburger / side menu panel — make sure its content is light text
+     on dark, and any sprite svg paths use currentColor. */
+  .k-side-menu,
+  .k-side-menu *,
+  .k-side-menu-body,
+  .k-side-menu-body *,
+  .side-menu,
+  .side-menu *,
+  .burger-wrapper,
+  .burger-wrapper *,
+  .menu-container,
+  .menu-container *,
+  .menu-container a,
+  .menu-container .main-menu-item,
+  .menu-container .main-menu-item.py-2 {
+    color: var(--dk-text) !important;
+  }
+  /* The slide-out overlay panel MUST be opaque or it bleeds the page through. */
+  .k-side-menu,
+  .k-side-menu-body,
+  .side-menu {
+    background-color: var(--dk-bg) !important;
+  }
+  /* .menu-container is the inline top-bar menu — keep transparent */
+  .menu-container {
+    background-color: transparent !important;
+  }
+  /* All SVG icons referenced via <use> in the burger/side menu and in
+     nav bars — force the symbol fill to currentColor / text */
+  .burger-wrapper svg,
+  .burger-wrapper svg path,
+  .burger-wrapper svg use,
+  .close-nav-button svg,
+  .close-nav-button svg path,
+  .close-nav-button svg use,
+  .k-side-menu svg,
+  .k-side-menu svg path,
+  .k-side-menu svg use,
+  .menu-container svg,
+  .menu-container svg path,
+  .menu-container svg use,
+  .user-menu-btn svg,
+  .user-menu-btn svg path,
+  .user-menu-btn svg use {
+    fill: var(--dk-text) !important;
+    color: var(--dk-text) !important;
+    stroke: var(--dk-text) !important;
+  }
+  /* The svg uses sprite symbols (defined elsewhere with black fills).
+     Override the symbol path fills globally — only for sprite icons,
+     which are small (<32 px) and reference general-icons.svg. */
+  svg use[*|href*="general-icons"],
+  svg use[*|href*="general-icons"] + *,
+  svg[width="28"] path,
+  svg[width="18"] path,
+  svg[width="16"] path,
+  svg[width="20"] path,
+  svg[width="24"] path {
+    fill: currentColor !important;
+  }
+
+  /* ElevenLabs Audionative widget — hidden (see also display:none block above) */
+  [id*="elevenlabs"],
+  [id*="audionative"],
+  [class*="elevenlabs"],
+  [class*="audionative"],
+  [class*="ElevenLabs"],
+  [class*="AudioNative"],
+  div[data-elevenlabs],
+  div[data-audionative],
+  iframe[src*="elevenlabs"] {
+    display: none !important;
+  }
+
+  /* ── Apopseis (Opinions) — explicit overrides for its title row and
+     its decorative quote glyph. */
+  .block-opinions .section-title-wrapper,
+  .apopseis-head,
+  .apopseis-bg {
+    background-color: var(--dk-bg) !important;
+  }
+  .apopseis-head-title,
+  h2.apopseis-head-title,
+  .apopseis-main-title,
+  .apopseis-author-name,
+  .apopseis-main-post-hypertitle-text {
+    color: var(--dk-text-strong) !important;
+  }
+  /* The big decorative quote glyph in Opinions — usually an SVG/PNG
+     painted dark on light. Lighten it. */
+  .apopseis-head svg,
+  .apopseis-head svg path,
+  .apopseis-bg > svg,
+  .apopseis-bg > svg path,
+  .apopseis-main-card svg path,
+  .apopseis-card svg path,
+  .apopseis-head img,
+  .apopseis-bg > img {
+    fill: var(--dk-text-strong) !important;
+  }
+  .apopseis-head img.lazy,
+  .apopseis-bg img.lazy {
+    filter: invert(0.92) hue-rotate(180deg) brightness(1.05);
+  }
+
+  /* ── Catch-all: any text node still rendering with the site's
+     hard navy `rgb(22,30,41)` / `rgb(24,30,40)` body color gets coerced
+     to readable on dark. (Use a high-specificity sweep on common
+     leaf elements only — avoid hitting page bg containers.) */
+  body p:not([class]),
+  body li:not([class]),
+  body span:not([class]),
+  body strong:not([class]),
+  body em:not([class]) {
+    color: var(--dk-text);
+  }
+
+  /* ── "Διάλογοι στην Κ" / special series hero
+     (`.k-half-light-header` / `.k-header-half-light-wrapper`) — was solid
+     white, with light-colored text intended to read on white. Flatten the
+     section and force its text to the dark-mode palette. */
+  .k-half-light-header,
+  .k-half-color-header,
+  .k-header-half-light-wrapper,
+  .main-logo-container.k-header-half-light-wrapper,
+  .k-half-light-header.is-flex,
+  div.k-half-light-header,
+  div.k-half-color-header {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+  .k-half-light-header *,
+  .k-half-color-header *,
+  .k-header-half-light-wrapper * {
+    color: var(--dk-text) !important;
+    background-color: transparent !important;
+  }
+  .k-half-light-header h1,
+  .k-half-light-header h2,
+  .k-half-light-header h3,
+  .k-half-light-header .title,
+  .k-half-color-header h1,
+  .k-half-color-header h2,
+  .k-half-color-header h3,
+  .k-half-color-header .title {
+    color: var(--dk-text-strong) !important;
+  }
+  .k-half-light-header .subtitle,
+  .k-half-light-header .hypertitle,
+  .k-half-color-header .subtitle,
+  .k-half-color-header .hypertitle {
+    color: var(--dk-blue) !important;
+  }
+
+  /* ElevenLabs widget — hide entirely; it doesn't load reliably */
+  #elevenlabs-audionative-widget,
+  [id*="elevenlabs"],
+  [class*="elevenlabs"],
+  [class*="ElevenLabs"],
+  [class*="AudioNative"],
+  div[data-elevenlabs],
+  div[data-audionative],
+  iframe[src*="elevenlabs"] {
+    display: none !important;
+  }
+
+  /* ── "Διαβάστε επίσης" inline read-more block (.k-read-more-wrapper).
+     Site uses `<span class="k-read-more-title">` with hard navy text. */
+  .k-read-more-wrapper,
+  .k-read-more-wrapper *,
+  .k-read-more-title-wrapper,
+  .k-read-more-title-wrapper *,
+  .k-read-more-title,
+  span.k-read-more-title,
+  .k-read-more-label,
+  .k-read-more-prefix {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .k-read-more-title,
+  span.k-read-more-title {
+    color: var(--dk-text-strong) !important;
+  }
+  /* The "Διαβάστε επίσης" little label that prefixes the block */
+  .k-read-more-prefix,
+  .k-read-more-label {
+    color: var(--dk-blue) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── FAQ / Contact / static utility pages.
+     Bulma's `.box` (and the `<main class="container box">` shells) hard-code
+     a white surface. Flatten them all. */
+  .box,
+  main.box,
+  main.container.box,
+  #primary,
+  main#primary,
+  .page-faq,
+  .page-contact,
+  .page-contact-full,
+  main.page-faq,
+  main.page-contact,
+  .contact-bottom,
+  .mht-section,
+  .k-side-menu-holder,
+  .inner_search_form_wrapper,
+  .columns.contact-bottom,
+  .page-template-default main,
+  body[class*="page-template"] main,
+  body[class*="page-id"] main {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+  .box *,
+  #primary *,
+  main.box *,
+  .page-faq *,
+  .page-contact *,
+  .page-contact-full *,
+  .contact-bottom *,
+  .mht-section *,
+  .inner_search_form_wrapper * {
+    color: var(--dk-text);
+  }
+  /* Inner form/search wrapper on these pages needs an input boundary */
+  .inner_search_form_wrapper input,
+  .inner_search_form_wrapper textarea,
+  .inner_search_form_wrapper select {
+    background-color: rgba(255, 255, 255, 0.04) !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border-strong) !important;
+  }
+  /* Light-blue CTA chips (e.g. rgb(235,248,255)) used on contact page */
+  a[style*="rgb(235"],
+  a[style*="background: rgb(235"],
+  .contact-bottom a,
+  .mht-section a {
+    background-color: rgba(77, 159, 255, 0.10) !important;
+    color: var(--dk-blue-hover) !important;
+    border: 1px solid rgba(77, 159, 255, 0.35) !important;
+  }
+
+  /* ── Pagination (.page_nav / .page-numbers — section listing pages) */
+  .page_nav,
+  div.page_nav,
+  .pagination,
+  .nav-links {
+    background-color: transparent !important;
+    border-color: var(--dk-border) !important;
+  }
+  .page-numbers,
+  a.page-numbers,
+  .nav-links a,
+  .pagination a,
+  .pagination span {
+    background-color: transparent !important;
+    color: var(--dk-text-muted) !important;
+    border: 1px solid var(--dk-border) !important;
+  }
+  .page-numbers:hover,
+  a.page-numbers:hover,
+  .nav-links a:hover,
+  .pagination a:hover {
+    background-color: rgba(255, 255, 255, 0.04) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border-strong) !important;
+  }
+  .page-numbers.current,
+  a.page-numbers.current,
+  .pagination .current,
+  .pagination .active a {
+    background-color: var(--dk-blue) !important;
+    color: #fff !important;
+    border-color: var(--dk-blue) !important;
+  }
+  /* Prev/next arrows */
+  .page-numbers.prev,
+  .page-numbers.next,
+  a.prev.page-numbers,
+  a.next.page-numbers {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Live blog / live coverage (e.g. ".../…-live-…/" articles).
+     The widget hard-codes white (#fff) timeline cards and light
+     gray (#eee / #f0f0f0) rails with navy text — none of which
+     the rules above match. Flip them to dark surfaces.
+     ───────────────────────────────────────────── */
+  .column.is-main-live {
+    background-color: transparent !important;
+  }
+  /* Each timeline entry — was #fff with an 8px-radius drop shadow */
+  .blog-wrapper-block,
+  .blog-wrapper-block.rendered {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border) !important;
+    box-shadow: none !important;
+  }
+  .blog-wrapper-block *,
+  .blog-wrapper-content *,
+  .blog-wrapper-content-inner * {
+    color: var(--dk-text) !important;
+  }
+  .blog-wrapper-block h1,
+  .blog-wrapper-block h2,
+  .blog-wrapper-block h3,
+  .blog-wrapper-block h4,
+  .blog-wrapper-content h3,
+  .blog-wrapper-block strong,
+  .blog-wrapper-block b {
+    color: var(--dk-text-strong) !important;
+  }
+  .blog-wrapper-time {
+    color: var(--dk-text-faint) !important;
+  }
+  .blog-wrapper-content a,
+  .blog-wrapper-content-inner a {
+    color: var(--dk-blue) !important;
+  }
+  /* Per-entry share icons (fb / x / copy-link) — dark fills */
+  .blog-wrapper-socials svg,
+  .blog-wrapper-socials svg path,
+  .social-icons-list svg,
+  .social-icons-list svg path,
+  .svg-social-icon,
+  .svg-social-icon path {
+    fill: var(--dk-text-muted) !important;
+    color: var(--dk-text-muted) !important;
+  }
+  /* Section title bars above/below the feed (was #eee) */
+  .live-blog-container-title,
+  .live-blog-container-title.bottom {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text-strong) !important;
+    border-color: var(--dk-border) !important;
+  }
+  /* "Key points" rail (was #f0f0f0) */
+  .key-points-container,
+  .key-points-mob-container,
+  .lb-key-points {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border) !important;
+  }
+  .key-points-container *,
+  .lb-key-points * {
+    color: var(--dk-text) !important;
+  }
+  .lb-key-points-title {
+    color: var(--dk-text-strong) !important;
+  }
+  .key-time {
+    color: var(--dk-text-faint) !important;
+  }
+  /* Inline post cards in the feed (was #fff, navy text) */
+  .entry-content-card {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+  .entry-content-card *,
+  .entry-content-card p,
+  .entry-content-card li {
+    color: var(--dk-text) !important;
+  }
+  .entry-content-card h2,
+  .entry-content-card h3,
+  .entry-content-card strong {
+    color: var(--dk-text-strong) !important;
+  }
+  .entry-content-card a {
+    color: var(--dk-blue) !important;
+  }
+  /* Inline responsive video wrapper — light gray placeholder box */
+  .intext-video-responsive {
+    background-color: var(--dk-placeholder) !important;
+  }
+
+  /* User-menu "sign out" row — was light gray (#f0f0f0) */
+  a.sign-out,
+  .sign-out {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+  a.sign-out:hover {
+    background-color: rgba(255, 255, 255, 0.04) !important;
+    color: var(--dk-text-strong) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Opinions ("Απόψεις") small-posts grid (homepage).
+     The grid wrapper was #e8e8e8 and each column #fff — neither
+     matched the earlier `.apopseis-card` rules. Flatten both and
+     the inner card shells, lift the text.
+     ───────────────────────────────────────────── */
+  .apopseis-small-posts,
+  .apopseis-small-column,
+  .apopseis-small-column .card,
+  .apopseis-small-column .card.content,
+  .apopseis-small-column .card-content,
+  .apopseis-small-column .apopseis-card {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    box-shadow: none !important;
+  }
+  .apopseis-small-column .card-title,
+  .apopseis-small-column .title,
+  .apopseis-small-column h2 {
+    color: var(--dk-text-strong) !important;
+  }
+  .apopseis-small-column .apopseis-author-name,
+  .apopseis-small-column .subtitle {
+    color: var(--dk-text-muted) !important;
+  }
+  /* Author avatar <img> carries an inline `background:#fff` — override it
+     so the rounded avatar reads as a dark surface, not a white square. */
+  .apopseis-author-figure img,
+  .apopseis-main-post-author-figure img,
+  .apopseis-card figure img[style*="background"],
+  .apopseis-small-column figure img {
+    background-color: var(--dk-surface-2) !important;
+  }
+
+  /* Animated "flip" headline widget (`.design_one_title_big.flip-text`)
+     — panel was #f0f0f0 with light text, i.e. invisible on dark. */
+  .design_one_title_big,
+  .design_one_title_big.flip-text,
+  .design_one_title_big.flip-text.front,
+  .design_one_title_big.flip-text.back,
+  .flip-text,
+  .flip-text.front,
+  .flip-text.back {
+    background-color: transparent !important;
+    color: var(--dk-text-strong) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Generic "white_card" component (e.g. local/economy cards).
+     The site uses `.card.white_card { background:#fff }` (specificity
+     0,2,0) which OUT-RANKS the plain `.card` flatten rule above — so it
+     stayed white. Match its specificity to flatten it.
+     ───────────────────────────────────────────── */
+  .card.white_card,
+  .card.white_card.local-card,
+  .card.local-card,
+  .white_card {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    box-shadow: none !important;
+  }
+  .card.white_card .title,
+  .card.white_card .card-title,
+  .card.local-card .title,
+  .white_card .title {
+    color: var(--dk-text-strong) !important;
+  }
+  .card.white_card .subtitle,
+  .card.local-card .subtitle,
+  .white_card .subtitle {
+    color: var(--dk-blue) !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     Eortologio (name-day calendar) page
+     ───────────────────────────────────────────── */
+  /* "This week's" name-day cards — content panel was warm beige (#f0e6db) */
+  .eortologio__week-card,
+  .eortologio__week-card-content {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .eortologio__week-card-content * {
+    color: var(--dk-text) !important;
+  }
+  .eortologio__week-title,
+  .eortologio-card-title,
+  .sidebar-eortologio-title,
+  .eortologio-header-title,
+  .eortologio-header-subtitle {
+    color: var(--dk-text-strong) !important;
+  }
+  /* "Today's" name-day list thumbnails — gray (#eee) placeholder squares */
+  .nx-todayItem__thumb,
+  span.nx-todayItem__thumb {
+    background-color: var(--dk-placeholder) !important;
+  }
+  .nx-todayItem__title,
+  .nx-todayItem__label {
+    color: var(--dk-text-strong) !important;
+  }
+
+  /* ── js-datepicker calendar popup (eortologio date picker) — the
+     widget ships its own white theme with near-black day numbers. */
+  .qs-datepicker-container {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+    border: 1px solid var(--dk-border-strong) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  }
+  .qs-datepicker-container * {
+    color: var(--dk-text) !important;
+  }
+  .qs-controls {
+    background-color: var(--dk-surface-2) !important;
+  }
+  /* weekday header row labels (Δε, Τρ, …) */
+  .qs-squares .qs-day {
+    color: var(--dk-text-faint) !important;
+  }
+  .qs-square:not(.qs-empty):not(.qs-disabled):not(.qs-day):hover {
+    background-color: var(--dk-surface-3) !important;
+  }
+  .qs-current {
+    color: var(--dk-blue) !important;
+    font-weight: 700 !important;
+  }
+  .qs-active,
+  .qs-range-start,
+  .qs-range-end {
+    background-color: var(--dk-blue) !important;
+    color: #fff !important;
+  }
+  .qs-disabled {
+    color: var(--dk-text-faint) !important;
+    opacity: 0.45 !important;
+  }
+
+  /* ─────────────────────────────────────────────
+     FEEDBACK PASS — static / utility / widget pages
+     ───────────────────────────────────────────── */
+
+  /* In-image caption strip on "k-half" hero layouts (eortologio &
+     special-format articles) — was light gray (#e9e9e9) with light text. */
+  .k-half-color-image_caption-inImage,
+  .k-half-light-image_caption-inImage,
+  .k-half-dark-image_caption-inImage,
+  [class*="image_caption-inImage"] {
+    background-color: rgba(0, 0, 0, 0.55) !important;
+    color: var(--dk-text-muted) !important;
+  }
+
+  /* Contact pages — email/phone chips (`.contact-info-item a`) were a
+     light-blue pill (#ebf8ff) set via class (no inline style). */
+  .contact-info a,
+  .contact-info-item a,
+  .contact-info-item {
+    background-color: rgba(77, 159, 255, 0.10) !important;
+    color: var(--dk-blue-hover) !important;
+    border-color: rgba(77, 159, 255, 0.35) !important;
+  }
+
+  /* Subscription / B2B / generic form shells — `.form-container` and the
+     per-page wrapper were #f5f5f5. */
+  .form-container,
+  .b2b-page,
+  .b2b-page .form-container {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+
+  /* Newsletters page ------------------------------------------------ */
+  /* "ΜΕ ΣΥΝΔΡΟΜΗ" badge (`.newsletter-tags .sub-only`) — #e5e5e5 chip */
+  .newsletter-tags .sub-only,
+  .newsletter-tags span,
+  .sub-only {
+    background-color: var(--dk-surface-2) !important;
+    color: var(--dk-text-muted) !important;
+    border: 1px solid var(--dk-border) !important;
+  }
+  /* Toggle switches — off-state track was #ccc; knob stays light */
+  .switch .slider,
+  .slider.round,
+  span.slider.round {
+    background-color: var(--dk-surface-3) !important;
+    border: 1px solid var(--dk-border-strong) !important;
+  }
+  .switch input:checked + .slider,
+  .switch input:checked ~ .slider,
+  input:checked + .slider.round {
+    background-color: var(--dk-blue) !important;
+    border-color: var(--dk-blue) !important;
+  }
+
+  /* Bulma tables (used on weather + various data pages) — default white */
+  .table,
+  table.table,
+  .table.is-fullwidth {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+  }
+  .table th,
+  .table td {
+    background-color: transparent !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .table thead th {
+    color: var(--dk-text-strong) !important;
+  }
+  .table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.025) !important;
+  }
+
+  /* Weather page (`/kairos-prognosi/`) — map header, condition tiles and
+     the meteo data tables/rows ship their own light (#f5f5f5 / #f6f6f6 /
+     rgba-white) panels. */
+  .map_header,
+  .map_header_date,
+  .weather-cond,
+  [class*="meteoData__"],
+  .meteoData__tabs-row-background,
+  .maxMins__tabs-row,
+  tr.maxMins__tabs-row {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+  .map_header *,
+  .weather-cond *,
+  [class*="meteoData__"] * {
+    color: var(--dk-text) !important;
+  }
+
+  /* Inline light backgrounds set via the `style` attribute (e.g. the
+     weather column's `background:#F5F5F5`, white JS share-tooltips on
+     contact/subscription pages). A stylesheet `!important` declaration
+     overrides a non-important inline declaration, so these still win.
+     Scoped to block containers — never images (avatars handled above). */
+  div[style*="#F5F5F5" i],
+  div[style*="#FFFFFF" i],
+  div[style*="background: #fff" i],
+  div[style*="background:#fff" i],
+  div[style*="background-color: rgb(255, 255, 255)" i],
+  section[style*="#F5F5F5" i],
+  section[style*="#FFFFFF" i] {
+    background-color: var(--dk-surface) !important;
+    color: var(--dk-text) !important;
+    border-color: var(--dk-border) !important;
+  }
+}
